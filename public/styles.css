@@ -1,0 +1,54 @@
+body{
+	height: 100%;
+	background: url("images/background.jpg") no-repeat center center;
+	background-size: cover;
+}
+
+#name{
+
+}
+
+#outdoor{
+	font-family: 'Raleway', sans-serif;
+	font-weight: 800;
+	font-size: 42px;
+	margin-bottom: 0px;
+	color: #e78369;
+	margin-top: 18px;
+	margin-left: 50px;
+	letter-spacing: -1px;
+}
+
+#boozin{
+	width: 38px;
+	font-family: 'Alegreya Sans SC', sans-serif;
+	font-size: 32px;
+	text-transform: uppercase;
+	font-weight: 800;
+	margin-top: -27px;
+	color: #f49f71;
+	letter-spacing: 100%;
+	margin-left: 50px;
+	letter-spacing: 3px;
+}
+
+#content {
+	width: 350px;
+	height: 300px;
+	position: absolute;
+	border: 15px solid;
+	border-color: #e78369;
+	top: 120px;
+	background-color: #f49f71;
+	border-top-right-radius: 50px 50px;
+	border-bottom-left-radius: 50px 50px;
+}
+
+#form{
+	text-align: center;
+}
+
+#button{
+	background-color: #e78369;
+}
+
