@@ -6,23 +6,38 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	<script type="text/javascript" src="app.js"></script>
 </head>
 <body>
 	<div id="name col-md-offset-1">
-		<p id="outdoor"> Outdoor</p>
-		<p id="boozin">  Boozin'</p>
+		<p id="outdoor">Outdoor</p>
+		<p id="boozin"> Boozin'</p>
 	</div>
 	<div class="container">
 		<div class="col-md-2 col-md-offset-1" id="content">
-				<form class="form-inline">
+				<p id="tag1">Is it warm enough for outdoor libations?</p>
+				<p id="tag2">Enter your zipcode below and find out!</p>
+				<!-- <form class="form-inline" action="/hi"> -->
 				  <div class="form-group">
-				    <input type="text" class="form-control" id="exampleInputName2" placeholder="Enter zip code.">
+				    <input type="text" class="form-control" id="zipcode-field" placeholder="Enter zip code.">
 				  </div>
-				  <button type="submit" class="btn btn-warning">Check!</button>
-				</form>
+				  <button type="submit" id="submit" class="btn btn-warning">Submit!</button>
+<!-- 				</form> -->
+				<p class="hidden error-field"></p>
+				<img src="http://icons.wxug.com/i/wxmap/logoWide.png" alt="Responsive image" class="img-responsive center-block">
 		</div>
+	
+
+		<button id="bars-button"> Bars</button>
+		<div class="hidden result-container">
+			<div class="col-md-2 col-md-offset-7" id="results">
+		  	<p id="good-weather"></p>
+		  	<p id="bad-weather"></p>
+		  </div>
+	  </div>
 	</div>	
 
+	
+	</div>
+		<script type="text/javascript" src="app.js"></script>
 </body>
 </html>

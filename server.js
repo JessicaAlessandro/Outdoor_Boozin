@@ -7,7 +7,9 @@ var express = require('express'),
     nodeDebugger = require('node-debugger'),
     morgan = require('morgan'),
     md5 = require('md5'),
-    cookieParser = require('cookie-parser');
+    cookieParser = require('cookie-parser'),
+    dotenv = require('dotenv').load(),
+    Yelp = require('yelp');
 
 var port = process.env.PORT || 3000;
 var app = express();
@@ -31,10 +33,11 @@ mongoose.connect('mongodb://localhost/finalproject', function(){
     console.log('connected to database!')
 });
 
+
 // =============
 // MODELS
 // =============
-
+var Place = require('./models/place');
 
 // =============
 // LISTENER
@@ -45,10 +48,12 @@ app.listen(port);
 // ROUTES
 // =============
 
+// Get request for all places. 
+app.get('/', function(req, res) {
 
-var yelp = new Yelp({
-  consumer_key: 'consumer-key',
-  consumer_secret: 'consumer-secret',
-  token: 'token',
-  token_secret: 'token-secret',
-});
+	Place.find().then(function(places) {
+		console.log(places);
+		res.send(places);
+		req.onload(places)
+	}); //end of query
+}); //end of get request

@@ -15,4 +15,3 @@ Schedule:
 E.O.D. 12/12 : Complete functionality for weather API
 E.O.D. 12/13 : Implement Yelp API
 E.O.D. 12/14 : Connect weather and Yelp APIs so the user only needs to input zipcode once. 
-
