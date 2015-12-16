@@ -15,9 +15,10 @@ function clearText() {
 // =================
 // GRABBER VARIABLES
 // =================
-
+	var $mapDiv = $('#map');
+	console.log($mapDiv)
 	var $submit = $('#submit');
-	// console.log($zipCodeInput);
+	// console.log($submit);
 	var $errorMessage = $('.error-field');
 	// console.log($errorMessage);
 
@@ -89,6 +90,7 @@ var checkTemp = function(result){
 
 
 	if (num => 60) {
+		$mapDiv.removeClass("hidden");
 		initMap(mapData);
 	} else {
 		console.log("boing");
