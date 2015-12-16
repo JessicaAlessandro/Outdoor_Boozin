@@ -1,6 +1,11 @@
 // console.log('hi!');
 
-$(document).ready();
+$(document).ready(
+	function(){
+		$mapDiv.hide();
+		$coldContainer.hide();
+	}
+);
 
 // =================
 // GRABBER VARIABLES
@@ -84,14 +89,16 @@ var checkTemp = function(result){
 	// }
 
 	if (num >= 60) {
+		// debugger;
 		console.log(feelslike + ' is greater than or equal to: 60');
-		$mapDiv.removeClass("hidden");
+		$coldContainer.hide();
+		$mapDiv.show();
 		console.log('attempting to run initMap() . . . . ');
 		initMap(mapData);
 	} else {
 		console.log(feelslike + ' is less than: 60');
-		$coldContainer.removeClass("hidden");
-		"error-container"
+		$mapDiv.hide();
+		$coldContainer.show();
 		// console.log("boing");
 	}
 }; // end of checkTemp function
