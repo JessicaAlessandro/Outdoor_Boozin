@@ -33,6 +33,29 @@ mongoose.connect('mongodb://localhost/finalproject', function(){
     console.log('connected to database!')
 });
 
+// =============
+// YELP
+// =============
+
+var yelp = new Yelp({
+  consumer_key: process.env.YELP_Consumer_Key,
+  consumer_secret: process.env.Consumer_Secret,
+  token: process.env.Token,
+  token_secret: process.env.Token_Secret,
+});
+
+app.get('/test', function(req, res) {
+
+    yelp.search({ term: 'food', location: '11226', limit: 10, "Outdoor Seating": "true" })
+    .then(function (data) {
+      console.log(data);
+      res.send(data);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+
+})
 
 // =============
 // MODELS

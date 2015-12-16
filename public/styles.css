@@ -35,9 +35,23 @@ body{
 	border: 15px solid;
 	border-color: #e78369;
 	top: 120px;
+	left: 100px;
 	background-color: #f49f71;
 	border-top-right-radius: 50px 50px;
 	border-bottom-left-radius: 50px 50px;
+}
+
+
+.form-group{
+	display: inline-block;
+}
+
+#zipcode-field{
+	width: 100%;
+}
+
+#submit{
+	float: right
 }
 
 #tag1{
@@ -55,14 +69,28 @@ body{
 	margin-top: 10px;
 }
 
-#results{
+/*
+#map-container{
 	position: relative;
 	border: 15px solid;
 	top:14px;
-	width: 350px;
-	margin-left: 57%;
+	width: 450px;
+	margin-left: 50%;
 	border-color: #e78369;
 	background-color: #f49f71;
 	border-top-right-radius: 50px 50px;
 	border-bottom-left-radius: 50px 50px
+}
+*/
+#map {
+  float: right;
+  margin-right: 130px;
+  height: 410px; 
+  width: 500px;
+  background-color: #f49f71;
+ 	border-top-right-radius: 50px 50px;
+	border-bottom-left-radius: 50px 50px;
+	border: 15px solid;
+	border-color: #e78369;
+	top:10px;
 }
