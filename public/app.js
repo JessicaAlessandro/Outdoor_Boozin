@@ -2,109 +2,102 @@
 
 $(document).ready();
 
-function init() {
-  // console.log('init works.');
-  $('.btn').click(getTemperature);
-}
-
-function clearText() {
-  $("input").val('');
-  $("input").attr('placeholder', '');
-}
-
 // =================
 // GRABBER VARIABLES
 // =================
-	var $mapDiv = $('#map');
-	console.log($mapDiv)
-	var $submit = $('#submit');
-	// console.log($submit);
-	var $errorMessage = $('.error-field');
-	// console.log($errorMessage);
+var $mapDiv = $('#map');
+// console.log($mapDiv)
+var $submit = $('#submit');
+// console.log($submit);
+var $errorMessage = $('.error-field');
+// console.log($errorMessage);
+var $coldContainer = $('#error-container');
+// console.log($coldContainer)
+var map;
+var infowindow;
 
-	$submit.click(function(){
-			// console.log('button works!');
-			$zipCode = $('#zipcode-field').val();
-			// console.log($zipCode);
+// function clearText() {
+//   $("#zipcode-field").val('');
+//   $("input").attr('placeholder', '');
+// };
 
-			if ($zipCode.length !== 5) {
-				$errorMessage.removeClass("hidden").text("Please enter a valid zip code.");
-			} else {
-				// console.log("valid zipcode");
-				getTemperature($zipCode);
-			}; //end of else statement
-	}); //end of click event
+$submit.click(function(){
+	// console.log('button works!');
+	$zipCode = $('#zipcode-field').val();
+	// console.log($zipCode);
+	if ($zipCode.length !== 5) {
+		$errorMessage.removeClass("hidden").text("Please enter a valid zip code.");
+	} else {
+		// console.log("valid zipcode");
 
-var getTemperature = function(zipcode) {
-	
-	console.log('getTemperature');
-	console.log(zipcode);
+		getTemperature($zipCode);
+	}; //end of else statement
+}); //end of click event
 
-	// var placeData = {
-	// 	"itinerary" : data
-	// };
-
+// making an ajax request to the wundergrond api using zipcode
+var getTemperature = function(zipcode) {	
+	console.log('running getTemperature()');
+	// console.log(zipcode);
 	$.ajax({
 		url: "http://api.wunderground.com/api/7bb261b08380e2e2/geolookup/conditions/forecast/q/UnitedStates" + zipcode + ".json"
 	}).done(function(result) {
 		// console.log(result);
-
+		console.log('Got temperature results, running checkTemp()');
 		checkTemp(result);
-
 		// call function that uses result
-
 	}).fail(function(err) {
 		console.log('Error!!!!!', err);
 	}); 
-
-}; // end getTemperature
-
+}; // end getTemperature function
 
 var currentTemperature = function(){
-    if (data.current_observation.feelslike_string) {
+  if (data.current_observation.feelslike_string) {
       $("#result-container").removeClass("hidden");
       $("#good-weather").text(data.current_observation.feelslike_string);
-    } else {
+  } else {
       $("#weather").text("Incorrect Zip.");
     }
 }
 
 var checkTemp = function(result){
+	console.log('checkTemp() running');
 	// console.log('ZIP: ', result.location.zip);
-
 	// console.log('DATA: ', result);
 	var feelslike = result.current_observation.feelslike_f;
 	// console.log('FEELS LIKE: ', feelslike);
 	// console.log('TYPE: ', typeof feelslike);
 	var num = parseInt(feelslike);
-	console.log(num);
+	console.log('feelsike variable: ', num);
 
 	mapData = {
 		latitude : result.location.lat,
 		longitude : result.location.lon,
 		zip : result.location.zip
 	};
-
 	// console.log(mapData);
 	// console.log(typeof mapData.latitude);
 
+	// if (num >= 0) {
+	// 	console.log('greater than or equal to: 0');
+	// } else {
+	// 	console.log('less than: 0');
+	// }
 
-	if (num => 60) {
+	if (num >= 60) {
+		console.log(feelslike + ' is greater than or equal to: 60');
 		$mapDiv.removeClass("hidden");
+		console.log('attempting to run initMap() . . . . ');
 		initMap(mapData);
 	} else {
-		console.log("boing");
+		console.log(feelslike + ' is less than: 60');
+		$coldContainer.removeClass("hidden");
+		"error-container"
+		// console.log("boing");
 	}
-
-};
-
-var map;
-var infowindow;
+}; // end of checkTemp function
 
 function initMap(mapData) {
-	console.log(mapData)
-
-
+	console.log('running initMap!');
 
 	var latitude = parseFloat(mapData.latitude);
 	// console.log('Latitude: ', latitude);
@@ -113,7 +106,7 @@ function initMap(mapData) {
 
 	var longitude = parseFloat(mapData.longitude);
 
-	console.log('Longitude: ', longitude);
+	// console.log('Longitude: ', longitude);
 	// console.log('Longitude TypeOf: ', typeof longitude);
 	var zip = parseInt(mapData.zip);
 	// console.log('Zip: ',zip);
@@ -127,109 +120,51 @@ function initMap(mapData) {
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: latitude, lng: longitude},
-    zoom: 10
+    zoom: 13
   });
+
+  console.log('map object defined');
 
   infowindow = new google.maps.InfoWindow();
 
-  var service = new google.maps.places.PlacesService(map);
-  service.nearbySearch({
-    location:  {lat: latitude, lng: longitude},
-    radius: 1000,
-    types: []
-  }, callback)
-}
+  console.log('infowindow defined');
+
+  var request = {
+    location: {lat: latitude, lng: longitude},
+    radius: '500',
+    query: 'outdoor seating' && 'bar' || 'restaurant'
+  };
+
+ 	var service = new google.maps.places.PlacesService(map);
+ 	console.log('placesService defined. Attempting to run service . . . ');
+  service.textSearch(request, callback);
+
+} //end of initMap function
 
 function callback(results, status) {
+	console.log('service callback running!')
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       createMarker(results[i]);
+      console.log('running createMarker loop')
     }
   }
-}
+} //end of callback function
 
 function createMarker(place) {
+	console.log('running createMarker function()');
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
   });
 
+  // console.log(place);
+  var infowindowContent = ("<strong>" + place.name + "</strong>" + "<br>" + place.formatted_address)
+
+
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.setContent(place.name);
+    infowindow.setContent(infowindowContent);
     infowindow.open(map, this);
   });
-} 
-
-
-
-// function initAutoComplete(zip) {
-
-// 	console.log('initAutoComplete: ', zip);
-
-//   var map = new google.maps.Map(document.getElementById('map'), {
-//     center: {lat: 25.777859, lng: -80.296156},
-//     zoom: 13,
-//     mapTypeId: google.maps.MapTypeId.ROADMAP
-//   });
-
-//   console.log(map);
-
-//   // // Create the search box and link it to the UI element.
-//   // // var input = document.getElementById('pac-input');
-//   var searchBox = new google.maps.places.SearchBox(zip + ' outdoor bar');
-//   map.controls[google.maps.ControlPosition.TOP_LEFT].push(zip + ' outdoor bar');
-
-//   // console.log('searchBox: ', searchBox);
-
-//   // // Bias the SearchBox results towards current map's viewport.
-//   map.addListener('bounds_changed', function() {
-//     searchBox.setBounds(map.getBounds());
-//   });
-
-//   var markers = [];
-//   // [START region_getplaces]
-//   // Listen for the event fired when the user selects a prediction and retrieve
-//   // more details for that place.
-//   searchBox.addListener('places_changed', function() {
-//     var places = searchBox.getPlaces();
-
-//     if (places.length == 0) {
-//       return;
-//     }
-
-//     // Clear out the old markers.
-//     markers.forEach(function(marker) {
-//       marker.setMap(null);
-//     });
-//     markers = [];
-
-//     // For each place, get the icon, name and location.
-//     var bounds = new google.maps.LatLngBounds();
-//     places.forEach(function(place) {
-//       var icon = {
-//         url: place.icon,
-//         size: new google.maps.Size(71, 71),
-//         origin: new google.maps.Point(0, 0),
-//         anchor: new google.maps.Point(17, 34),
-//         scaledSize: new google.maps.Size(25, 25)
-//       };
-
-//       // Create a marker for each place.
-//       markers.push(new google.maps.Marker({
-//         map: map,
-//         icon: icon,
-//         title: place.name,
-//         position: place.geometry.location
-//       }));
-
-//       if (place.geometry.viewport) {
-//         // Only geocodes have viewport.
-//         bounds.union(place.geometry.viewport);
-//       } else {
-//         bounds.extend(place.geometry.location);
-//       }
-//     });
-//     map.fitBounds(bounds);
-//   }); // searchBox listener
-// }
+} //end of createMarker function

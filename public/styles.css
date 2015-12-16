@@ -12,7 +12,7 @@ body{
 	color: #e78369;
 	margin-top: 18px;
 	margin-left: 50px;
-	letter-spacing: -1px;
+	letter-spacing: -1px; 
 }
 
 #boozin{
@@ -51,7 +51,7 @@ body{
 }
 
 #submit{
-	float: right
+	float: right;
 }
 
 #tag1{
@@ -93,4 +93,33 @@ body{
 	border: 15px solid;
 	border-color: #e78369;
 	top:10px;
+}
+
+#error-container{
+	position: relative;
+	border: 15px solid;
+	top:14px;
+	width: 450px;
+	margin-left: 50%;
+	border-color: #f49f71;
+	background-color: #e78369;
+	border-bottom-right-radius: 50px 50px;
+	border-top-left-radius: 50px 50px
+}
+
+#cold-message{
+	font-family: 'Alegreya Sans SC', sans-serif;
+	color: white;
+	font-size: 35px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#cold-message2{
+	font-family: 'Raleway', sans-serif;
+	color: white;
+	font-size: 24px;
+	text-align: center;
+	line-height: 5px;
+	padding-bottom: 3px;
 }
