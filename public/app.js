@@ -3,7 +3,7 @@
 $(document).ready();
 
 function init() {
-  console.log('init works.');
+  // console.log('init works.');
   $('.btn').click(getTemperature);
 }
 
@@ -22,14 +22,14 @@ function clearText() {
 	// console.log($errorMessage);
 
 	$submit.click(function(){
-			console.log('button works!');
+			// console.log('button works!');
 			$zipCode = $('#zipcode-field').val();
-			console.log($zipCode);
+			// console.log($zipCode);
 
 			if ($zipCode.length !== 5) {
 				$errorMessage.removeClass("hidden").text("Please enter a valid zip code.");
 			} else {
-				console.log("valid zipcode");
+				// console.log("valid zipcode");
 				getTemperature($zipCode);
 			}; //end of else statement
 	}); //end of click event
@@ -69,17 +69,27 @@ var currentTemperature = function(){
 }
 
 var checkTemp = function(result){
-	console.log('ZIP: ', result.location.zip);
+	// console.log('ZIP: ', result.location.zip);
 
-	console.log('DATA: ', result);
+	// console.log('DATA: ', result);
 	var feelslike = result.current_observation.feelslike_f;
-	console.log('FEELS LIKE: ', feelslike);
-	console.log('TYPE: ', typeof feelslike);
+	// console.log('FEELS LIKE: ', feelslike);
+	// console.log('TYPE: ', typeof feelslike);
 	var num = parseInt(feelslike);
 	console.log(num);
 
+	mapData = {
+		latitude : result.location.lat,
+		longitude : result.location.lon,
+		zip : result.location.zip
+	};
+
+	// console.log(mapData);
+	// console.log(typeof mapData.latitude);
+
+
 	if (num => 60) {
-		initMap(result.location.zip);
+		initMap(mapData);
 	} else {
 		console.log("boing");
 	}
@@ -89,23 +99,43 @@ var checkTemp = function(result){
 var map;
 var infowindow;
 
-function initMap(zip) {
+function initMap(mapData) {
+	console.log(mapData)
 
-	console.log('initMap: ', zip);
+
+
+	var latitude = parseFloat(mapData.latitude);
+	// console.log('Latitude: ', latitude);
+	// console.log('Latitude TypeOf: ', typeof latitude);
+
+
+	var longitude = parseFloat(mapData.longitude);
+
+	console.log('Longitude: ', longitude);
+	// console.log('Longitude TypeOf: ', typeof longitude);
+	var zip = parseInt(mapData.zip);
+	// console.log('Zip: ',zip);
+	// console.log('Zip TypeOf: ',typeof zip);
+
+	var centralLocation = {latitude, longitude};
+	// console.log('Central Location ', centralLocation);
+	// console.log('CentralLocation Latitude TypeOf: ', typeof centralLocation.latitude);
+	// console.log('CentralLocation Longitude TypeOf: ',typeof centralLocation.latitude);	
+
 
   map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 25.777859, lng: -80.296156},
-    zoom: 15
+    center: {lat: latitude, lng: longitude},
+    zoom: 10
   });
 
   infowindow = new google.maps.InfoWindow();
 
   var service = new google.maps.places.PlacesService(map);
   service.nearbySearch({
-    location: =,
-    radius: 500,
-    types: ['store']
-  }, callback);
+    location:  {lat: latitude, lng: longitude},
+    radius: 1000,
+    types: []
+  }, callback)
 }
 
 function callback(results, status) {
