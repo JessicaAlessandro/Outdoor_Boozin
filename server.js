@@ -29,10 +29,12 @@ app.use(cookieParser());
 // =============
 // DATABASE
 // =============
-mongoose.connect('mongodb://localhost/finalproject', function(){
-    console.log('connected to database!')
-});
+// mongoose.connect('mongodb://localhost/finalproject', function(){
+//     console.log('connected to database!')
+// });
 
+var mongoUri =  process.env.MONGOLAB_URI || 'mongodb://localhost/outdoorboozin';
+mongoose.connect(mongoUri);
 // =============
 // YELP
 // =============
