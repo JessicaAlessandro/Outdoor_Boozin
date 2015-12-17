@@ -83,7 +83,7 @@ body{
 }
 */
 #map {
-	right: 45px;
+	position: relative;
   margin-right: 130px;
   height: 410px; 
   width: 500px;
