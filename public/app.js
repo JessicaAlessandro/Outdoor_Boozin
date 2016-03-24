@@ -41,13 +41,13 @@ $submit.click(function(){
 
 // making an ajax request to the wundergrond api using zipcode
 var getTemperature = function(zipcode) {	
-	console.log('running getTemperature()');
+	// console.log('running getTemperature()');
 	// console.log(zipcode);
 	$.ajax({
 		url: "http://api.wunderground.com/api/7bb261b08380e2e2/geolookup/conditions/forecast/q/UnitedStates" + zipcode + ".json"
 	}).done(function(result) {
 		// console.log(result);
-		console.log('Got temperature results, running checkTemp()');
+		// console.log('Got temperature results, running checkTemp()');
 		checkTemp(result);
 		// call function that uses result
 	}).fail(function(err) {
@@ -65,14 +65,14 @@ var currentTemperature = function(){
 }
 
 var checkTemp = function(result){
-	console.log('checkTemp() running');
+	// console.log('checkTemp() running');
 	// console.log('ZIP: ', result.location.zip);
 	// console.log('DATA: ', result);
 	var feelslike = result.current_observation.feelslike_f;
 	// console.log('FEELS LIKE: ', feelslike);
 	// console.log('TYPE: ', typeof feelslike);
 	var num = parseInt(feelslike);
-	console.log('feelsike variable: ', num);
+	// console.log('feelsike variable: ', num);
 
 	mapData = {
 		latitude : result.location.lat,
@@ -90,13 +90,13 @@ var checkTemp = function(result){
 
 	if (num >= 60) {
 		// debugger;
-		console.log(feelslike + ' is greater than or equal to: 60');
+		// console.log(feelslike + ' is greater than or equal to: 60');
 		$coldContainer.hide();
 		$mapDiv.show();
-		console.log('attempting to run initMap() . . . . ');
+		// console.log('attempting to run initMap() . . . . ');
 		initMap(mapData);
 	} else {
-		console.log(feelslike + ' is less than: 60');
+		// console.log(feelslike + ' is less than: 60');
 		$mapDiv.hide();
 		$coldContainer.show();
 		// console.log("boing");
@@ -104,7 +104,7 @@ var checkTemp = function(result){
 }; // end of checkTemp function
 
 function initMap(mapData) {
-	console.log('running initMap!');
+	// console.log('running initMap!');
 
 	var latitude = parseFloat(mapData.latitude);
 	// console.log('Latitude: ', latitude);
@@ -130,11 +130,11 @@ function initMap(mapData) {
     zoom: 13
   });
 
-  console.log('map object defined');
+  // console.log('map object defined');
 
   infowindow = new google.maps.InfoWindow();
 
-  console.log('infowindow defined');
+  // console.log('infowindow defined');
 
   var request = {
     location: {lat: latitude, lng: longitude},
@@ -143,23 +143,23 @@ function initMap(mapData) {
   };
 
  	var service = new google.maps.places.PlacesService(map);
- 	console.log('placesService defined. Attempting to run service . . . ');
+ 	// console.log('placesService defined. Attempting to run service . . . ');
   service.textSearch(request, callback);
 
 } //end of initMap function
 
 function callback(results, status) {
-	console.log('service callback running!')
+	// console.log('service callback running!')
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
       createMarker(results[i]);
-      console.log('running createMarker loop')
+      // console.log('running createMarker loop')
     }
   }
 } //end of callback function
 
 function createMarker(place) {
-	console.log('running createMarker function()');
+	// console.log('running createMarker function()');
   var placeLoc = place.geometry.location;
   var marker = new google.maps.Marker({
     map: map,
